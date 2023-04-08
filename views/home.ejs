@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+
+    <!-- fontsawesome cdn -->
+    <script src="https://kit.fontawesome.com/d247d48140.js" crossorigin="anonymous"></script>
+
+    <!-- my stylesheet -->
+    <link rel="stylesheet" href="/css/home.css"/>
+</head>
+<body>
+  <!-- this container div will hold the whole todo list -->
+    <div id = "container">
+      <h1><%= title %></h1>
+
+          <!-- form to creating the task -->
+        <form id = "new-todo-form" action="/create-list" method="POST">
+          <div class="description">  
+            <label for="task">DESCRIPTION</label>
+            <input id="task" type="text" placeholder="What do you need to do ? " name="task"/>
+          </div>
+          <div class="categorydue_date">
+            <div class="category">
+               <label for="category">CATEGORY</label>
+               <select name="category" id="category">
+                 <option value="choose">Choose a category</option>
+                 <option value="personal">Personal</option>
+                 <option value="work">Work</option>
+                 <option value="school">School</option>
+                 <option value="cleaning">Cleaning</option>
+                 <option value="other">Other</option>
+               </select>
+            </div>
+            <div class="date">
+               <label for="date">DUE DATE</label>
+               <input type="date" id="date" name="date">
+            </div>
+          </div> 
+           <!-- this div is for select list for priority input -->
+            <div id="priority">
+              <label>PRIORITY</label>
+                <select class="select-priority" name="p">
+                     <option value="choose">Choose priority</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="0">Null</option>
+                </select>
+            </div>
+            <!-- Add task button -->
+          <div id="addTask-button">
+             <button type="submit" class="add-task"><i class="fa-solid fa-plus"></i>ADD TASK</button>
+          </div> 
+        </form>
+
+        <!-- Detlete task and task list  -->
+        <form action="delete-task" method="GET">
+          <div id="deleteTask-button">
+             <button type="submit" id="delete-button"><i class="fa-solid fa-trash-can"></i>DELETE TASK</button>
+         </div>
+         
+         <% if(task_List.length!=0){ %>
+         <!-- task list appear when task add by user -->
+         <ul id="list">
+          <% for (let i of task_List) { %> 
+           <li>
+              <input class="custom-checkbox" name="<%=i._id%>" type="checkbox"/>
+              <div class="todo_task">
+                 <label><%= i.task%></label>
+                 <p><i class="fa-regular fa-calendar-days"></i><%=i.date %></p>
+              </div>
+              <div>
+
+                <!-- *********giving colors according to their priority******** -->
+
+                <% if(i.p=='1') {%>
+                  <span style="background-color: red;" class="card">P:<%= i.p %></span>
+                  <% }%>
+                
+                  <% if(i.p=='2') {%>
+                    <span style="background-color: purple;" class="card">P:<%= i.p %></span>
+                  <% }%>
+              
+                  <% if(i.p=='3') {%>
+                    <span style="background-color: rgb(244, 244, 9);" class="card">P:<%= i.p %></span>
+                  <% }%>
+        
+                  <% if(i.p=='0') {%>
+                    <span style="background-color: blue;" class="card">P:<%= i.p %></span>
+                  <% }%>
+
+                  <!-- *********giving colors according to their category******** -->
+
+            <% if(i.category=='personal') {%>
+              <button style="background-color: orange;" class="card"><%= i.category %></button>
+              <% }%>
+  
+              <% if(i.category=='work') {%>
+                <button style="background-color: magenta;" class="card"><%= i.category %></button>
+              <% }%>
+  
+              <% if(i.category=='school') {%>
+                <button style="background-color:maroon;" class="card"><%= i.category %></button>
+              <% }%>
+  
+              <% if(i.category=='cleaning') {%>
+                <button style="background-color:peru;" class="card"><%= i.category %></button>
+              <% }%>
+  
+              <% if(i.category=='other') {%>
+                <button style="background-color: bisque;" class="card"><%= i.category %></button>
+              <% }%>
+
+          </div>
+           </li>
+           <%}%>
+         </ul>
+         <% } %>
+          <!-- if task list is empty then no task added message will be printed -->
+    <% if( task_List.length==0 ) {%>
+      <h1 style="text-align: center;">No task Added Yet!</h1>
+  
+      <% } %>
+        </form>
+    </div>
+</body>
+</html>
